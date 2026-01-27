@@ -1,0 +1,11 @@
+<!--File: quotes/templates/quotes/quote.html
+# Author: Shrey Jain (shreyj@bu.edu), 1/26/2026
+# Description: Quote page for quotes application -->
+
+{% extends 'quotes/base.html' %}
+{% load static %}
+
+    {% block content %}
+    <h2>{{quote}}</h2><br>
+    <img src="{{ image }}" alt="Michael Scott">
+    {% endblock %}

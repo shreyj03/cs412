@@ -1,0 +1,16 @@
+<!--File: quotes/templates/quotes/show_all.html
+# Author: Shrey Jain (shreyj@bu.edu), 1/26/2026
+# Description: Show all quotes page for quotes application -->
+
+{% extends 'quotes/base.html' %}
+{% block content %}
+    <h2>All Michael Scott Quotes</h2>
+    {% for quote in quotes %}
+        <p>{{ quote }}</p>
+    {% endfor %}
+    
+    <h2>All Michael Scott Pictures</h2>
+    {% for image in images %}
+        <img src="{{ image }}" alt="Michael Scott">
+    {% endfor %}
+{% endblock %}

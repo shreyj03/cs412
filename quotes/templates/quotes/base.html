@@ -1,0 +1,32 @@
+<!--# File: quotes/templates/quotes/base.html
+# Author: Shrey Jain (shreyj@bu.edu), 1/26/2026
+# Description: Base template for quotes application -->
+
+{% load static %}
+<html>
+    <head>
+        <title>Quotes Application</title>
+        <link rel="stylesheet" href="{% static 'static.css' %}">
+    </head>
+    <body>
+        <h1>Michael Scott Quote of the Day</h1>
+        <nav>
+            <ul>
+               <li><a href="{% url 'quote_page' %}">Scott's Quote of the Day</a></li>
+                <li><a href="{% url 'show_all_page' %}">Show all</a></li>
+                <li><a href="{% url 'about_page' %}">About</a></li> 
+            </ul>
+            
+        </nav>
+        <!-- put page specific content here -->
+        <div id="content-container">
+            {% block content %}
+            {% endblock %}
+        </div>
+        
+    </body>
+    <footer>
+        Brought to you by Shrey Jain.
+        Generated at {{time}}.
+    </footer>
+</html>
