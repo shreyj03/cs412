@@ -11,6 +11,7 @@ entree_prices = {
     "Chicken Burrito $10": 10,
     "Steak Bowl $11": 11,
     "Chicken Tacos $10": 10,
+    "Pork Tacos $11": 11,
     "Sub Steak $3": 3
 }
 
