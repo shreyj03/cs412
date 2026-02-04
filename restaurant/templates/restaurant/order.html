@@ -11,11 +11,12 @@
             {% csrf_token %}
             <div id="form-content">
                 <h3>Select your entree:</h3>
-                <input type="checkbox" name="entree" value="Chicken Burrito $10">
+                <input type="checkbox" name="entree" value="Chicken Burrito $10" id="entree1">
                 <label for="entree1">Chicken Burrito $10</label><br>
 
                 <div style="margin-left: 20px;">
-                    <input type="checkbox" name="entree" value="Sub Steak $3">
+                    <small>Protein upgrade:</small><br>
+                    <input type="checkbox" name="entree" value="Sub Steak $3" id="sub-steak" disabled>
                     <label for="sub-steak">Sub Steak $3</label><br>
                 </div>
 
@@ -54,5 +55,20 @@
             </div>
             
         </form>
+
+        <script>
+            // Disables sub steak if chicken burrito is not selected
+            const chickenBurrito = document.getElementById('entree1');
+            const subSteak = document.getElementById('sub-steak');
+
+            chickenBurrito.addEventListener('change', function() {
+                if (this.checked) {
+                    subSteak.disabled = false;
+                } else {
+                    subSteak.disabled = true;
+                    subSteak.checked = false;
+                }
+            });
+        </script>
     
     {% endblock %}
