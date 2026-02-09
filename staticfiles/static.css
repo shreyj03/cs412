@@ -96,7 +96,7 @@ footer {
     margin-right: 5px;
 }
 
-#form-content input[type="textbox"] {
+#form-content input[type="text"] {
     display: block;
     width: 90%;
     padding: 8px;
