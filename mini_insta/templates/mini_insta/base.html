@@ -1,0 +1,20 @@
+<!-- Author: Shrey Jain (shreyj@bu.edu), 2/9/26 -->
+<!-- Description: base HTML page to be used as template for other HTML pages -->
+
+{% load static %}
+<html>
+    <head>
+        <title>Mini Insta</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'static.css' %}">
+    </head>
+    <body>
+        <h1>Mini Insta</h1>
+        <div id="content-container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+    <footer>
+        <p>Copyright 2025 Shrey Jain</p>
+    </footer>
+</html>

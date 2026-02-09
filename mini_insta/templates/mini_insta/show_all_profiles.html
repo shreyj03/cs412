@@ -1,0 +1,25 @@
+<!-- Author: Shrey Jain (shreyj@bu.edu), 09/24/2025 -->
+<!-- Description: HTML page to be used as for showing all profiles -->
+
+{% extends 'mini_insta/base.html' %}
+<h1>Showing all profiles</h1>
+
+{% block content %}
+<div id="i-container">
+    <div id="instagram-container">
+    <!-- scriplet code for a for loop -->
+    {% for profile in profiles %}
+    <div id="insta-profile">
+        <div id="insta-container-image">
+            <img src="{{profile.profile_image_url}}">
+        </div>
+        <div id="insta-container-name">
+            <h2>{{profile.username}}</h2>
+            <h3>{{profile.display_name}}</h3>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
