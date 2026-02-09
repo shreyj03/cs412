@@ -11,11 +11,11 @@
     {% for profile in profiles %}
     <div id="insta-profile">
         <div id="insta-container-image">
-            <img src="{{profile.profile_image_url}}">
+            <a href="{% url 'show_profile' profile.pk %}"><img src="{{profile.profile_image_url}}"></a>
         </div>
         <div id="insta-container-name">
-            <h2>{{profile.username}}</h2>
-            <h3>{{profile.display_name}}</h3>
+            <a href="{% url 'show_profile' profile.pk %}"><h2>{{profile.username}}</h2></a>
+            <a href="{% url 'show_profile' profile.pk %}"><h3>{{profile.display_name}}</h3></a>
         </div>
     </div>
     {% endfor %}

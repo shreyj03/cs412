@@ -1,0 +1,91 @@
+/* mini_insta.css */
+/* Author: Shrey Jain (shreyj@bu.edu), 2/9/26 */
+/* Description: CSS styling for Mini Insta application */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: whitesmoke;
+}
+
+h1 {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid lightgray;
+}
+
+#content-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+    background-color: white;
+    border-top: 1px solid lightgray;
+}
+
+/* Profile list page */
+#instagram-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+#insta-profile {
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 20px;
+    text-align: center;
+}
+
+#insta-container-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 1px solid lightgray;
+}
+
+#insta-container-name a {
+    text-decoration: none;
+    color: black;
+}
+
+#insta-container-name h2 {
+    margin: 10px 0;
+}
+
+#insta-container-name h3 {
+    margin: 5px 0;
+    color: gray;
+    font-weight: normal;
+}
+
+/* Single profile page */
+#insta-bio {
+    display: flex;
+    gap: 40px;
+    padding: 30px;
+    background-color: white;
+    border: 1px solid lightgray;
+}
+
+#insta-bio-image img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 1px solid lightgray;
+}
+
+#insta-bio-name h2 {
+    margin: 10px 0;
+}
+
+#insta-bio-name h3 {
+    margin: 8px 0;
+    font-weight: normal;
+}
