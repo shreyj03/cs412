@@ -89,3 +89,22 @@ footer {
     margin: 8px 0;
     font-weight: normal;
 }
+
+#profile-posts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#profile-posts img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+}
+
+#profile-posts p {
+    display: none;
+}
