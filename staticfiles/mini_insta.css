@@ -89,6 +89,7 @@ footer {
     margin: 8px 0;
     font-weight: normal;
 }
+/* Post detail page */
 
 #profile-posts {
     display: grid;
@@ -108,6 +109,8 @@ footer {
 #profile-posts p {
     display: none;
 }
+
+/* Post detail page */
 
 #post-detail {
     max-width: 600px;
