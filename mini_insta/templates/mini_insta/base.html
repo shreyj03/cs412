@@ -16,7 +16,10 @@
     </body>
     <footer>
 <!-- Tales you back to all profiles -->
-      <p><a href="{% url 'show_all_profiles' %}">View All Profiles</a></p>
-      <p>Copyright 2025 Shrey Jain</p>
+    {% if profile %}
+    <p><a href="{% url 'create_post' profile.pk %}">Create Post</a></p>
+    {% endif %}
+    <p><a href="{% url 'show_all_profiles' %}">View All Profiles</a></p>
+    <p>Copyright 2025 Shrey Jain</p>
     </footer>
 </html>
