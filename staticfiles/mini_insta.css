@@ -108,3 +108,26 @@ footer {
 #profile-posts p {
     display: none;
 }
+
+#post-detail {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+#post-detail h2 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+#post-detail p {
+    color: #555;
+    margin: 4px 0;
+}
+
+#post-photos img {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 12px;
+    border-radius: 4px;
+}
