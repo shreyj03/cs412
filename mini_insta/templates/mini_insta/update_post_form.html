@@ -1,0 +1,23 @@
+<!-- Author: Shrey Jain (shreyj@bu.edu), 2/24/26 -->
+<!-- Description: display the html form to update a post -->
+
+<!-- mini_insta/templates/mini_insta/update_post_form.html -->
+
+{% extends 'mini_insta/base.html' %}
+{% block content %}
+<div id="create-post-form">
+    <h1>Update Post</h1>
+    <form action="{% url 'update_post' post.pk %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <br><br>
+        <input type="submit" name="submit" value="Update">
+    </form>
+    
+    <form action="{% url 'show_profile' profile.pk %}" method="GET">
+    <input type="submit" value="Cancel">
+    </form>
+</div>
+{% endblock %}
