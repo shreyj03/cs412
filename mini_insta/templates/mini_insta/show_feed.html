@@ -25,11 +25,11 @@
     <p>{{ post.timestamp }}</p>
 
     <div id="post-photos">
-        {% if post.get_first_photo %}
-          <img src="{{ post.get_first_photo.get_image_url }}" alt="post photo" class="search-post-img">
-        {% else %}
-          <img src="https://ih1.redbubble.net/image.4905811472.8675/st,extra_large,507x507-pad,600x600,f8f8f8.jpg" alt="no image" class="search-post-img">
-        {% endif %}
+    {% if post.get_first_photo %}
+    <img src="{{ post.get_first_photo.get_image_url }}" alt="post photo" class="post-image">
+    {% else %}
+    <img src="https://ih1.redbubble.net/image.4905811472.8675/st,extra_large,507x507-pad,600x600,f8f8f8.jpg" alt="no image" class="post-image">
+    {% endif %}
     </div>
 
     <div class="likes">
