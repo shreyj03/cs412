@@ -9,6 +9,8 @@ from mini_insta.forms import *
 from .models import *
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+
 # Create your views here.
 
 class ProfileListView(ListView):
@@ -24,12 +26,26 @@ class ProfileDetailView(DetailView):
     template_name = "mini_insta/show_profile.html"
     context_object_name = "profile" # note singular variable name
     
+    def get_context_data(self, **kwargs):
+        '''Override get_context_data to add profile to context for footer.'''
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['profile'] = Profile.objects.filter(user=self.request.user).first()
+        return context
+    
 class PostDetailView(DetailView):
     '''Display a single post.'''
 
     model = Post
     template_name = "mini_insta/show_post.html"
     context_object_name = "post" 
+    
+    def get_context_data(self, **kwargs):
+        '''Override get_context_data to add profile to context for footer.'''
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['profile'] = Profile.objects.filter(user=self.request.user).first()
+        return context
 
 class CreatePostView(LoginRequiredMixin, CreateView):
     '''A view to handle creation of a new Post.
@@ -224,4 +240,33 @@ class MyProfileDetailView(LoginRequiredMixin, DetailView):
     def get_object(self):
         '''Return the profile of the logged-in user.'''
         return Profile.objects.get(user=self.request.user)
+    
+class CreateProfileView(CreateView):
+    '''A view for handling creating a profile.'''
+    model = Profile
+    template_name = "mini_insta/create_profile_form.html"
+    fields = ['username', 'display_name', 'profile_image_url', 'bio_text']
+
+    def get_context_data(self, **kwargs):
+        ''''override the built in get_context_data to populate fields.'''
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        '''validate incoming create profile form'''
+        user_form = UserCreationForm(self.request.POST)
+        if user_form.is_valid():
+            user = user_form.save()
+            login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+            form.instance.user = user
+            return super().form_valid(form)
+        else:
+            context = self.get_context_data(form=form)
+            context['user_form'] = user_form
+            return self.render_to_response(context)
+    
+    def get_success_url(self):
+        '''redirect to the Profile's detail page'''
+        return reverse('show_my_profile')
     
