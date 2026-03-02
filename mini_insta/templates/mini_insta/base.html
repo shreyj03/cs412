@@ -6,9 +6,67 @@
     <head>
         <title>Mini Insta</title>
         <link rel="stylesheet" type="text/css" href="{% static 'mini_insta.css' %}">
+        <style>
+        #nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 20px;
+            background-color: white;
+            border-bottom: 1px solid #efefef;
+            font-size: 14px;
+        }
+
+        #nav a {
+            text-decoration: none;
+            color: #262626;
+            font-weight: 600;
+        }
+
+        #nav a:hover {
+            color: #3897f0;
+        }
+
+        #nav form {
+            margin: 0;
+        }
+
+        #nav button {
+            background: none;
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #262626;
+        }
+
+        #nav button:hover {
+            background-color: #fafafa;
+        }
+
+        #nav .logged-in-as {
+            margin-right: auto;
+            color: #8e8e8e;
+        }
+    </style>
     </head>
     <body>
         <h1>Mini Insta</h1>
+        <div id="nav">
+        {% if request.user.is_authenticated %}
+            <span class="logged-in-as">Logged in as: <strong>{{request.user}}</strong></span>
+            <a href="{% url 'show_my_profile' %}">My Profile</a>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <span class="logged-in-as">Not logged in</span>
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
         <div id="content-container">
             {% block content %}
             {% endblock %}
@@ -17,16 +75,18 @@
     <footer>
 <!-- Tales you back to all profiles -->
     {% if profile %}
-    <a href="{% url 'show_feed' profile.pk %}">🏠</a>
-    <a href="{% url 'show_search' profile.pk %}">🔍</a>
-    <a href="{% url 'create_post' profile.pk %}">➕</a>
-    <a href="{% url 'show_profile' profile.pk %}">
-        {% if profile.profile_image_url %}
-        <img src="{{ profile.profile_image_url }}" class="footer-profile-img">
-        {% else %}
-        👤
+        {% if request.user.is_authenticated and request.user == profile.user %}
+        <a href="{% url 'show_feed' %}">🏠</a>
+        <a href="{% url 'show_search' %}">🔍</a>
+        <a href="{% url 'create_post' %}">➕</a>
+        <a href="{% url 'show_my_profile' %}">
+            {% if profile.profile_image_url %}
+            <img src="{{ profile.profile_image_url }}" class="footer-profile-img">
+            {% else %}
+            👤
+            {% endif %}
+        </a>
         {% endif %}
-    </a>
     {% endif %}
     <p><a href="{% url 'show_all_profiles' %}">View All Profiles</a></p>
     <p>Copyright 2026 Shrey Jain</p>
