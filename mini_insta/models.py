@@ -99,6 +99,9 @@ class Post(models.Model):
         likes = Like.objects.filter(post=self).count()
         return (likes - 1)
     
+    def get_likes_profiles(self):
+        '''Return a list of profiles that liked this post.'''
+        return [like.profile for like in Like.objects.filter(post=self)]
     
 class Photo(models.Model):
     '''Encapsulate the data attributes of an image associated with a Post.'''

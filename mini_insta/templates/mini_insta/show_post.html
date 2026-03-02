@@ -5,6 +5,35 @@
 <!-- this displays a single Post. -->
 
 {% block content %}
+<style>
+    .like-btn, .unlike-btn {
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .like-btn {
+        background-color: white;
+        border: 1px solid #dbdbdb;
+        color: #262626;
+    }
+
+    .like-btn:hover {
+        background-color: #fafafa;
+    }
+
+    .unlike-btn {
+        background-color: #ed4956;
+        color: white;
+    }
+
+    .unlike-btn:hover {
+        background-color: #c0313d;
+    }
+</style>
 <div id="post-detail">
     <h2>{{ post.profile }}</h2>
     <p>{{ post.timestamp }}</p>
@@ -16,6 +45,22 @@
             <img src="https://ih1.redbubble.net/image.4905811472.8675/st,extra_large,507x507-pad,600x600,f8f8f8.jpg" alt="no image">
         {% endfor %}
     </div>
+
+    {% if request.user.is_authenticated and request.user != post.profile.user %}
+        {% with logged_in_profile=request.user.profile_set.first %}
+            {% if logged_in_profile in post.get_likes_profiles %}
+                <form method="POST" action="{% url 'delete_like' post.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="unlike-btn">Unlike</button>
+                </form>
+            {% else %}
+                <form method="POST" action="{% url 'like_post' post.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="like-btn">❤️ Like</button>
+                </form>
+            {% endif %}
+        {% endwith %}
+    {% endif %}
 
     <div id="likes">
         {% if post.get_first_like %}

@@ -1,0 +1,16 @@
+<!-- Author: Shrey Jain (shreyj@bu.edu), 3/1/26 -->
+<!-- Description: HTML page to delete a follow object -->
+
+<!-- mini_insta/delete_follow_form.html 
+    display the html form to delete a follow object
+-->
+{% extends 'mini_insta/base.html' %}
+{% block content %}
+<h1>Unfollow Form</h1>
+<h2>Unfollow {{ profile.username }}?</h2>
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Unfollow">
+    <a href="{% url 'show_profile' profile.pk %}"><button type="button">Cancel</button></a>
+</form>
+{% endblock %}

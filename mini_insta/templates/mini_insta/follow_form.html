@@ -1,0 +1,19 @@
+<!-- Author: Shrey Jain (shreyj@bu.edu), 3/1/26 -->
+<!-- Description: HTML page to create a follow object -->
+
+<!-- mini_insta/follow_form.html 
+    display the html form to create a follow object
+-->
+
+
+{% extends 'mini_insta/base.html' %}
+{% block content %}
+<h1>Follow Form</h1>
+<h2>Follow {{ profile.username }}?</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="Follow">
+    <a href="{% url 'show_profile' profile.pk %}"><button type="button">Cancel</button></a>
+</form>
+{% endblock %}
