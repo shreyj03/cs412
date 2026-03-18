@@ -1,0 +1,306 @@
+/* voter_analytics/static/voter.css
+   Shrey Jain (shreyj@bu.edu), 3/16/26
+   Description: Stylesheet for voter_analytics application 
+   CSS done with the help of Claude*/
+
+:root {
+    --bg: whitesmoke;
+    --surface: white;
+    --border: lightgray;
+    --border-light: #efefef;
+    --accent: #3897f0;
+    --accent-hover: #2d7fd4;
+    --text: #262626;
+    --text-muted: #555;
+    --radius: 6px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Header & Nav */
+header {
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 4px;
+}
+
+nav ul li a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: var(--radius);
+    transition: color 0.15s;
+}
+
+nav ul li a:hover {
+    color: var(--accent);
+}
+
+/* Page headings */
+h1 {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 20px;
+    color: var(--text);
+}
+
+h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 20px 0 10px;
+    color: var(--text);
+}
+
+/* Filter Form */
+form {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    margin: 0 20px 20px;
+}
+
+form table {
+    border: none;
+    width: auto;
+}
+
+form table th,
+form table td {
+    border: none;
+    padding: 6px 12px 6px 0;
+    vertical-align: middle;
+    background: transparent;
+    font-size: 14px;
+}
+
+form table th {
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+select {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    min-width: 140px;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+label {
+    font-size: 14px;
+    cursor: pointer;
+    vertical-align: middle;
+    color: var(--text);
+}
+
+input[type="submit"] {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--accent-hover);
+}
+
+form a {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-left: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: color 0.15s, border-color 0.15s;
+}
+
+form a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Pagination */
+.pagination, ul.pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    padding: 14px 20px;
+    flex-wrap: wrap;
+}
+
+.pagination a,
+.pagination li a {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition: background 0.15s;
+}
+
+.pagination a:hover,
+.pagination li a:hover {
+    background-color: #ebf5fe;
+}
+
+.pagination span,
+.pagination li {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 5px 4px;
+}
+
+/* Data Table */
+.row table {
+    width: calc(100% - 40px);
+    margin: 0 20px;
+    border-collapse: collapse;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 14px;
+}
+
+table th {
+    background-color: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
+table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border-light);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    color: var(--text);
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+table tr:hover td {
+    background-color: #f9f9f9;
+}
+
+table td a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+table td a:hover {
+    text-decoration: underline;
+}
+
+/* Voter Detail Page */
+p {
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* Google Maps Link */
+a[href*="google.com/maps"] {
+    display: inline-block;
+    margin: 12px 20px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background-color: var(--accent);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background-color 0.15s;
+}
+
+a[href*="google.com/maps"]:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Graphs Page */
+.mt-4 {
+    margin-top: 20px;
+}
+
+.container {
+    padding: 0 20px;
+}
