@@ -1,0 +1,10 @@
+<!-- File: dadjokes/templates/dadjokes/picture_detail.html -->
+<!-- Author: Shrey Jain (shreyj@bu.edu), 4/3/2026 -->
+<!-- Description: template to display a single picture -->
+
+{% extends 'dadjokes/base.html' %}
+{% block content %}
+<h1>Picture #{{ picture.pk }}</h1>
+<img src="{{ picture.picture }}" alt="funny picture">
+<p>-- {{ picture.name }} | {{ picture.timestamp|date:"M d, Y" }}</p>
+{% endblock %}

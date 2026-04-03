@@ -1,0 +1,10 @@
+<!-- File: dadjokes/templates/dadjokes/joke_detail.html -->
+<!-- Author: Shrey Jain (shreyj@bu.edu), 4/3/2026 -->
+<!-- Description: template to display a single joke -->
+
+{% extends 'dadjokes/base.html' %}
+{% block content %}
+<h1>Joke #{{ joke.pk }}</h1>
+<p><strong>{{ joke.text }}</strong></p>
+<p>-- {{ joke.name }} | {{ joke.timestamp|date:"M d, Y" }}</p>
+{% endblock %}

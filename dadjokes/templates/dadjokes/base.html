@@ -1,0 +1,24 @@
+<!-- File: dadjokes/templates/dadjokes/base.html -->
+<!-- Author: Shrey Jain (shreyj@bu.edu), 4/3/2026 -->
+<!-- Description: base template for dadjokes application -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dad Jokes</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        nav a { margin-right: 15px; }
+        img { max-width: 400px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'random' %}">Home</a>
+        <a href="{% url 'jokes' %}">All Jokes</a>
+        <a href="{% url 'pictures' %}">All Pictures</a>
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>
