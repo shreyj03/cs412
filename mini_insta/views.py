@@ -11,6 +11,16 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 
+from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
+from rest_framework.response import Response
+from rest_framework import status, serializers
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 class ProfileListView(ListView):
@@ -352,3 +362,132 @@ class LikeDeleteView(LoginRequiredMixin, DeleteView):
         if like:
             like.delete()
         return redirect("show_post", pk=post.pk)
+    
+class UserSerializer(serializers.ModelSerializer):
+    '''Serializer for user registration. Password is write-only.'''
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+    def create(self, validated_data):
+        '''Used create_user so the password gets hashed properly.'''
+        return User.objects.create_user(**validated_data)
+    
+class UserRegistrationView(CreateAPIView):
+    '''POST /api/register/ - create a new user account'''
+    serializer_class = UserSerializer
+    
+class LoginAPIView(APIView):
+    '''POST /api/login/ - authenticate and return token + profile_id'''
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = authenticate(username=username, password=password)
+        if not user:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        token, _ = Token.objects.get_or_create(user=user)
+        profile = Profile.objects.filter(user=user).first()
+        return Response({
+            'token': token.key,
+            'profile_id': profile.pk if profile else None,
+        })
+
+class ProfileListAPIView(APIView):
+    '''GET /api/profiles/ - list all profiles'''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request):
+        profiles = Profile.objects.all()
+        data = [
+            {
+                'id': p.pk,
+                'username': p.username,
+                'display_name': p.display_name,
+                'profile_image_url': p.profile_image_url,
+                'bio_text': p.bio_text,
+            }
+            for p in profiles
+        ]
+        return Response(data)
+    
+class ProfileDetailAPIView(APIView):
+    '''GET /api/profiles/<pk>/ -single profile + their posts'''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            profile = Profile.objects.get(pk=pk)
+        except Profile.DoesNotExist:
+            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        posts = [
+            {
+                'id': post.pk,
+                'caption': post.caption,
+                'timestamp': post.timestamp,
+                'photos': [p.get_image_url() for p in post.get_all_photos()],
+            }
+            for post in profile.get_all_posts()
+        ]
+        return Response({
+            'id': profile.pk,
+            'username': profile.username,
+            'display_name': profile.display_name,
+            'profile_image_url': profile.profile_image_url,
+            'bio_text': profile.bio_text,
+            'posts': posts,
+        })
+        
+class FeedAPIView(APIView):
+    '''GET /api/profiles/<pk>/feed/ - feed for a profile'''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            profile = Profile.objects.get(pk=pk)
+        except Profile.DoesNotExist:
+            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        posts = [
+            {
+                'id': post.pk,
+                'caption': post.caption,
+                'timestamp': post.timestamp,
+                'profile_id': post.profile.pk,
+                'username': post.profile.username,
+                'profile_image_url': post.profile.profile_image_url,
+                'photos': [p.get_image_url() for p in post.get_all_photos()],
+            }
+            for post in profile.get_post_feed()
+        ]
+        return Response(posts)
+    
+class CreatePostAPIView(APIView):
+    '''POST /api/posts/ - create a new post, owner set from token'''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        profile = Profile.objects.filter(user=request.user).first()
+        if not profile:
+            return Response({'error': 'No profile found'}, status=status.HTTP_400_BAD_REQUEST)
+
+        caption = request.data.get('caption', '')
+        image_url = request.data.get('image_url', '')
+
+        post = Post.objects.create(profile=profile, caption=caption)
+        if image_url:
+            Photo.objects.create(post=post, image_url=image_url)
+
+        return Response({
+            'id': post.pk,
+            'caption': post.caption,
+            'timestamp': post.timestamp,
+            'profile_id': profile.pk,
+        }, status=status.HTTP_201_CREATED)

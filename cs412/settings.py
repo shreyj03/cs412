@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'voter_analytics',
     'dadjokes',
     'rest_framework',
+    'rest_framework.authtoken',
     
 ]
 
@@ -148,7 +149,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-  'PAGE_SIZE': 10
+  'PAGE_SIZE': 10,
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
 
 # End of file: cs412/settings.py
