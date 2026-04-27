@@ -144,6 +144,13 @@ CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
     STATIC_URL = '/shreyj/static/'
     MEDIA_URL = '/shreyj/media/'
+    LOGIN_REDIRECT_URL = '/shreyj/cs412/project/'
+    LOGOUT_REDIRECT_URL = '/shreyj/cs412/project/'
+    LOGIN_URL = '/shreyj/cs412/project/login/'
+else:
+    LOGIN_REDIRECT_URL = '/project/'
+    LOGOUT_REDIRECT_URL = '/project/'
+    LOGIN_URL = '/project/login/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -156,8 +163,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
-LOGIN_REDIRECT_URL = '/project/'
-LOGOUT_REDIRECT_URL = '/project/'
-LOGIN_URL = '/project/login/'
+
 
 # End of file: cs412/settings.py
