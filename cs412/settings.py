@@ -144,9 +144,9 @@ CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
     STATIC_URL = '/shreyj/static/'
     MEDIA_URL = '/shreyj/media/'
-    LOGIN_REDIRECT_URL = '/shreyj/cs412/project/'
-    LOGOUT_REDIRECT_URL = '/shreyj/cs412/project/'
-    LOGIN_URL = '/shreyj/cs412/project/login/'
+    LOGIN_REDIRECT_URL = '/shreyj/project/'
+    LOGOUT_REDIRECT_URL = '/shreyj/project/'
+    LOGIN_URL = '/shreyj/project/login/'
 else:
     LOGIN_REDIRECT_URL = '/project/'
     LOGOUT_REDIRECT_URL = '/project/'
