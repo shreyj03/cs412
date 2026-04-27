@@ -74,6 +74,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'project.context_processors.profile_context', 
             ],
         },
     },
@@ -155,5 +156,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+LOGIN_REDIRECT_URL = '/project/'
+LOGOUT_REDIRECT_URL = '/project/'
+LOGIN_URL = '/project/login/'
 
 # End of file: cs412/settings.py

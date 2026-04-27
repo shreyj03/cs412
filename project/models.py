@@ -32,10 +32,9 @@ class Stock(models.Model):
 
 
 class Watchlist(models.Model):
-    """Represents a stock on a user's watchlist"""
-
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    """Represents a stock on a user's watchlist."""
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='watchlist')
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='watched_by')
     date_added = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -44,17 +43,15 @@ class Watchlist(models.Model):
 
 
 class Transaction(models.Model):
-    """Represents a buy or sell transaction by a user for a stock"""
-
+    """Represents a buy or sell transaction by a user for a stock."""
     BUY = 'buy'
     SELL = 'sell'
     TRANSACTION_TYPES = [
         (BUY, 'Buy'),
         (SELL, 'Sell'),
     ]
-
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='transactions')
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='transactions')
     transaction_type = models.CharField(max_length=4, choices=TRANSACTION_TYPES)
     quantity = models.PositiveIntegerField()
     price_per_share = models.DecimalField(max_digits=10, decimal_places=2)
