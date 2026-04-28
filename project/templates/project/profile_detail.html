@@ -30,6 +30,7 @@
     <tr>
         <th>Ticker</th>
         <th>Company</th>
+        <th>Live Price</th>
         <th>Date Added</th>
         <th>Action</th>
     </tr>
@@ -37,6 +38,13 @@
     <tr>
         <td><a href="{% url 'stock-detail' w.stock.pk %}">{{ w.stock.ticker }}</a></td>
         <td>{{ w.stock.company_name }}</td>
+        <td>
+            {% for ticker, price in watchlist_prices.items %}
+                {% if ticker == w.stock.ticker %}
+                    {% if price %}${{ price }}{% else %}N/A{% endif %}
+                {% endif %}
+            {% endfor %}
+        </td>
         <td>{{ w.date_added }}</td>
         <td><a href="{% url 'delete-watchlist' w.pk %}" style="color:red;">Remove</a></td>
     </tr>

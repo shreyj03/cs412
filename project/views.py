@@ -143,26 +143,36 @@ class ProfileDetailView(DetailView):
         total_current_value = 0
 
         for t in transactions:
-            try:
-                ticker = yf.Ticker(t.stock.ticker)
-                live_price = round(ticker.fast_info.last_price, 2)
-                cost = round(float(t.price_per_share) * t.quantity, 2)
-                current_value = round(live_price * t.quantity, 2)
-                pnl = round(current_value - cost, 2)
-                if t.transaction_type == 'buy':
-                    total_invested += cost
-                    total_current_value += current_value
-            except:
-                live_price = None
-                pnl = None
-                cost = None
-                current_value = None
+            # try:
+            ticker = yf.Ticker(t.stock.ticker)
+            live_price = round(ticker.fast_info.last_price, 2)
+            cost = round(float(t.price_per_share) * t.quantity, 2)
+            current_value = round(live_price * t.quantity, 2)
+            pnl = round(current_value - cost, 2)
+            if t.transaction_type == 'buy':
+                total_invested += cost
+                total_current_value += current_value
+            # except:
+            #     live_price = None
+            #     pnl = None
+            #     cost = None
+            #     current_value = None
             transaction_data.append({
                 'transaction': t,
                 'live_price': live_price,
                 'pnl': pnl,
             })
-
+            
+        watchlist_prices = {}
+        for w in self.object.watchlist.all():
+            try:
+                ticker = yf.Ticker(w.stock.ticker)
+                watchlist_prices[w.stock.ticker] = round(ticker.fast_info.last_price, 2)
+            except:
+                watchlist_prices[w.stock.ticker] = None
+                
+        context['watchlist_prices'] = watchlist_prices   
+        context['watchlist_prices'] = watchlist_prices
         context['transaction_data'] = transaction_data
         context['total_invested'] = round(total_invested, 2)
         context['total_current_value'] = round(total_current_value, 2)
