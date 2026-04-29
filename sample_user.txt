@@ -1,10 +1,2 @@
-username: shreyjain
-password: Spike@123
-
-username: kenny_boi
-password: Spike@123
-
-username: Claire_dun
-password: Spike@123
-
-Note: each user corresponds to their own profile of the same name and all have the same password.
+username: shreyj
+password: pass1234

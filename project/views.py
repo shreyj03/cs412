@@ -13,6 +13,9 @@ from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteVi
 from django import forms
 from django.db import models
 from django.contrib.auth.mixins import LoginRequiredMixin
+import pandas as pd
+from datetime import date
+
 
 
 
@@ -170,6 +173,52 @@ class ProfileDetailView(DetailView):
                 watchlist_prices[w.stock.ticker] = round(ticker.fast_info.last_price, 2)
             except:
                 watchlist_prices[w.stock.ticker] = None
+                
+        # portfolio value over time chart
+        try:
+            transactions = self.object.transactions.filter(transaction_type='buy')
+            if transactions.exists():
+                earliest_date = transactions.order_by('date').first().date
+                
+                # get historical prices for each stock in portfolio
+                holdings = {}
+                for t in transactions:
+                    if t.stock.ticker not in holdings:
+                        holdings[t.stock.ticker] = []
+                    holdings[t.stock.ticker].append({
+                        'quantity': t.quantity,
+                        'date': t.date,
+                    })
+                
+                # build daily portfolio value from earliest transaction to today
+                date_range = pd.date_range(start=earliest_date, end=date.today(), freq='B')  # business days
+                portfolio_values = []
+                chart_dates = []
+
+                for ticker_str, buys in holdings.items():
+                    hist = yf.Ticker(ticker_str).history(start=str(earliest_date), end=str(date.today()))
+                    for d in date_range:
+                        date_str = d.strftime('%Y-%m-%d')
+                        total_shares = sum(b['quantity'] for b in buys if b['date'] <= d.date())
+                        if total_shares > 0 and date_str in hist.index.strftime('%Y-%m-%d').tolist():
+                            idx = hist.index.strftime('%Y-%m-%d').tolist().index(date_str)
+                            price = hist['Close'].iloc[idx]
+                            # accumulate value for this date
+                            if date_str not in chart_dates:
+                                chart_dates.append(date_str)
+                                portfolio_values.append(float(round(total_shares * price, 2)))
+                            else:
+                                i = chart_dates.index(date_str)
+                                portfolio_values[i] += float(round(total_shares * price, 2))
+
+                context['portfolio_chart_dates'] = chart_dates
+                context['portfolio_chart_values'] = portfolio_values
+            else:
+                context['portfolio_chart_dates'] = []
+                context['portfolio_chart_values'] = []
+        except:
+            context['portfolio_chart_dates'] = []
+            context['portfolio_chart_values'] = []
                 
         context['watchlist_prices'] = watchlist_prices   
         context['watchlist_prices'] = watchlist_prices
