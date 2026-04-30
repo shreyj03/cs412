@@ -4,6 +4,9 @@
 {% extends 'project/base.html' %}
 {% block content %}
 <h1>{{ profile.user.username }}</h1>
+{% if profile.profile_image_url %}
+    <img src="{{ profile.profile_image_url }}" alt="Profile Picture" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:10px;">
+{% endif %}
 <p><strong>Bio:</strong> {{ profile.bio }}</p>
 <a href="{% url 'edit-profile' profile.pk %}" class="btn">Edit Profile</a>
 <h2>Portfolio Summary</h2>
